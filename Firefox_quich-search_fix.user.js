@@ -5,8 +5,9 @@
 // @include      http://*.baidu.com/*
 // @include      https://*.baidu.com/*
 // @include      https://github.com/*
+// @require      https://code.jquery.com/jquery-3.3.1.min.js
 // @author       Aulddays
-// @version  1
+// @version  2
 // @grant    none
 // @run-at       document-start
 // ==/UserScript==
@@ -24,6 +25,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+this.$ = this.jQuery = jQuery.noConflict(true);
 
 document.addEventListener ("DOMContentLoaded", run);
 window.addEventListener ("pageFullyLoaded", run);
@@ -57,5 +60,16 @@ function fix()
 			console.log("Firefox quick-search prevent keydown");
 		}
 	};
+	// baike
+	if (window.location.hostname == "baike.baidu.com")
+	{
+		var focused = $(document.activeElement);
+		if (focused.attr('id') == "query" && !focused.hasClass("aulddays_blurred"))
+		{
+			focused.addClass("aulddays_blurred");
+			focused.blur();
+			console.log("Firefox quick-search fix baike");
+		}
+	}
 	console.log("Firefox quick-search fix end");
 }
